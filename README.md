@@ -1,5 +1,6 @@
-# CBCTF-attachments-Template
-附件存放模板
+# CBCTF 2024
+## WriteUps
+[2024 CBCTF](https://github.com/0RAYS/2024-CBCTF/tree/main/WriteUps)
 
 ## Web
 ### [Challenge Name](https://github.com/0RAYS/CBCTF-attachments-Template/tree/main/Web/Challenge%20Name)

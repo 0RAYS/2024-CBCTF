@@ -165,7 +165,7 @@ public:
             else
                 SIGSEGVERR;
         }
-
+        
         else
             cout << "no more room for anthoer guest,try it later" << endl;
     }

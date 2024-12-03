@@ -50,5 +50,4 @@ int main()
     myread(username, namesize);
 
     Password();
-    puts("exit!");
 }

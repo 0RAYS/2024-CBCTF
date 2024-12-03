@@ -2,13 +2,13 @@ FROM ubuntu:22.04
 
 RUN sed -i "s/http:\/\/archive.ubuntu.com/http:\/\/mirrors.tuna.tsinghua.edu.cn/g" /etc/apt/sources.list && \
     apt-get update && apt-get -y dist-upgrade && \
-    apt-get install -y lib32z1 xinetd
+    apt-get install -y xinetd
 
 RUN useradd -m ctf
 
 WORKDIR /home/ctf
 
-COPY ./src/pwn .
+COPY ./attachment/pwn .
 
 RUN mkdir /home/ctf/dev && \
 mknod /home/ctf/dev/null c 1 3 && \
@@ -27,6 +27,8 @@ COPY ./start.sh /start.sh
 
 RUN chmod +x /start.sh
 RUN chown -R root:ctf /home/ctf && chmod -R 750 /home/ctf
+
+RUN cp -R /usr/lib* .
 
 ENV CBFLAG CBCTF{test123456}
 

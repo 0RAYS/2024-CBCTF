@@ -1,4 +1,4 @@
-	.file	"vuln.c"
+	.file	"who.s"
 	.intel_syntax noprefix
 	.text
 	.section	.rodata.str1.8,"aMS",@progbits,1
@@ -20,7 +20,6 @@
 	.globl	who
 	.type	who, @function
 who:
-.startwho:
     # init stack frame
 	push	rbp
 	mov	rbp, rsp
@@ -31,8 +30,6 @@ who:
     mov rax, QWORD PTR fs:[0x28]
     mov QWORD PTR [rbp - canary], rax
 	mov	eax, esi
-    # r14 = size
-    mov r14d, esi
     # alloca(size): local, tmp
     sub rsp, rax
     sub rsp, rax
@@ -50,6 +47,8 @@ who:
     push r13
     push r14
     push r15
+    # r14 = size
+    mov r14d, esi
     # xmm0 = 0
     pxor xmm0, xmm0
 .equ tmp, 0x50
@@ -68,11 +67,11 @@ who:
     mov rbx, r13
     mov rcx, r14
     add rcx, rbx            # rcx = local + size
-.memset:                    # rcx != rbx
+.setmem:                    # rcx != rbx
     movaps XMMWORD PTR [rbx], xmm0
     add rbx, 0x10
     cmp rbx, rcx
-    jb .memset
+    jb .setmem
     
     # r12 = readin = read(0, local, toread)
     mov edx, DWORD PTR [rbp - toread]
@@ -189,5 +188,5 @@ who:
 
 .LFE6577:
 	.size	who, .-who
-	.ident	"GCC: (GNU) 14.2.1 20240910"
+	.ident	"Rocket: (Arch Linux) 20241205"
 	.section	.note.GNU-stack,"",@progbits

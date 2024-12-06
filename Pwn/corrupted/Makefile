@@ -5,13 +5,17 @@ TARGET = corrupted
 
 all: $(TARGET)
 
-$(TARGET): src/$(TARGET).c
+victim: src/$(TARGET).c
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $<
 
+$(TARGET): victim
+	python corrupt.py $< $@
+
 clean:
-	rm -f $(TARGET)
+	rm -f $(TARGET) victim $(TARGET).zip
 
 package:
-	bsdtar -cvaf $(TARGET).zip $(TARGET)
+	rm victim
+	bsdtar -caf $(TARGET).zip $(TARGET)
 
 .PHONY: all clean package

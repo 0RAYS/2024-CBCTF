@@ -3,7 +3,7 @@ FROM ubuntu:22.04
 RUN sed -i "s/http:\/\/archive.ubuntu.com/http:\/\/mirrors.tuna.tsinghua.edu.cn/g" /etc/apt/sources.list && \
     apt-get update && apt-get -y dist-upgrade && \
     apt-get install -y xinetd
-    #  gcc make libseccomp-dev
+    # libseccomp-dev
 
 RUN useradd -m ctf
 
@@ -13,9 +13,6 @@ COPY ./attachment/pwn .
 COPY ./attachment/libc.so.6 .
 COPY ./attachment/ld-linux-x86-64.so.2 .
 COPY ./attachment/libseccomp.so.2 .
-# COPY ./src/ogw.c .
-# COPY ./src/makefile .
-# RUN make pwn
 
 RUN mkdir /home/ctf/dev && \
 mknod /home/ctf/dev/null c 1 3 && \

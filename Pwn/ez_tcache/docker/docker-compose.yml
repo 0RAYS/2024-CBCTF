@@ -6,4 +6,4 @@ services:
     ports:
       - "9999:9999"
     environment:
-      - CBFLAG=CBCTF{test123}
+      - FLAG=CBCTF{test123}

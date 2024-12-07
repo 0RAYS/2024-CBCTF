@@ -35,7 +35,7 @@ COPY ./start.sh /start.sh
 RUN chmod +x /start.sh
 RUN chown -R root:ctf /home/ctf && chmod -R 750 /home/ctf
 
-ENV CBFLAG CBCTF{test123456}
+ENV FLAG CBCTF{test123456}
 
 CMD ["/start.sh"]
 

@@ -30,7 +30,7 @@ RUN chown -R root:ctf /home/ctf && chmod -R 750 /home/ctf
 
 RUN cp -R /usr/lib* .
 
-ENV CBFLAG CBCTF{test123456}
+ENV FLAG CBCTF{test123456}
 
 CMD ["/start.sh"]
 

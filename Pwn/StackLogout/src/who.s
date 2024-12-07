@@ -1,6 +1,6 @@
 	.file	"who.s"
 	.intel_syntax noprefix
-	.text
+
 	.section	.rodata.str1.8,"aMS",@progbits,1
 	.align 8
 .sWarningNonAscii:
@@ -8,6 +8,7 @@
 	.align 8
 .sNeedCast:
 	.string	"It is needed to be converted to ISO-2022-CN-EXT."
+
 	.section	.rodata.str1.1,"aMS",@progbits,1
 .sFromEnc:
 	.string	"UTF-8"
@@ -15,6 +16,7 @@
 	.string	"ISO-2022-CN-EXT"
 .sConfirm:
 	.string	"Do you confirm? [y/n] "
+
 	.text
 	.p2align 4
 	.globl	who
@@ -67,11 +69,13 @@ who:
     mov rbx, r13
     mov rcx, r14
     add rcx, rbx            # rcx = local + size
-.setmem:                    # rcx != rbx
+    .p2align 4,,10
+    .p2align 3
+.Lmemset:                   # rcx != rbx
     movaps XMMWORD PTR [rbx], xmm0
     add rbx, 0x10
     cmp rbx, rcx
-    jb .setmem
+    jb .Lmemset
     
     # r12 = readin = read(0, local, toread)
     mov edx, DWORD PTR [rbp - toread]
@@ -93,16 +97,20 @@ who:
     add rsi, rdi
 
     # local includes non-ascii byte?
-.testbit:                   # rsi != rdi
+    .p2align 4,,10
+    .p2align 3
+.Ltestbit:                   # rsi != rdi
     movdqa xmm2, XMMWORD PTR [rdi]
     pand xmm2, xmm1
     pmovmskb eax, xmm2
     test eax, eax
-    jne .convert
+    jne .Lconvert
     add rdi, 0x10
     cmp rdi, rsi
-    jb .testbit
-.testname:
+    jb .Ltestbit
+
+    .p2align 3
+.Ltestname:
     # printf("Do you confirm? [y/n] ")
     lea rdi, QWORD PTR [rip + .sConfirm]
     xor eax, eax
@@ -116,11 +124,11 @@ who:
     call getc@PLT
     # c ?= 'n'
     cmp r15d, 0x6e
-    je .oneMoreRead
+    je .LoneMoreRead
     # c ?= 'y'
     cmp r15d, 0x79
-    jne .testname
-.goback:
+    jne .Ltestname
+.Lgoback:
     # memcpy(buf, local, readin)
     mov rdx, r12
     mov rsi, r13
@@ -131,7 +139,7 @@ who:
     mov rax, QWORD PTR [rbp - canary]
     mov rcx, QWORD PTR fs:[0x28]
     cmp rax, rcx
-    jne .stack_chk_failed
+    jne .Lstack_chk_failed
 
     # restore registers
     pop r15
@@ -142,18 +150,18 @@ who:
     leave
     ret
 
-.oneMoreRead:
+.LoneMoreRead:
     # r12 = readin = read(0, local, toread & 0x1f0)
     mov edx, DWORD PTR [rbp - toread]
-    and edx, 0x1f0
+    and edx, 0x1f8
     mov rsi, r13
     xor edi, edi
     call read@PLT
     mov r12, rax
-    jmp .goback
+    jmp .Lgoback
 
 
-.convert:
+.Lconvert:
     # memcpy(tmp, local, size)
     mov rdx, r14
     mov rsi, r13
@@ -180,13 +188,13 @@ who:
     # iconv_close(cd)
     mov rdi, r15
     call iconv_close@PLT
-    jmp .testname
+    jmp .Ltestname
 
-.stack_chk_failed:
+.Lstack_chk_failed:
     call __stack_chk_fail@PLT
     # no return
 
-.LFE6577:
+.Lcomment:
 	.size	who, .-who
 	.ident	"Rocket: (Arch Linux) 20241205"
 	.section	.note.GNU-stack,"",@progbits

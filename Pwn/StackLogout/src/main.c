@@ -5,27 +5,7 @@
 #include <sys/cdefs.h>
 #include <unistd.h>
 
-extern void who(char *buf, unsigned size);
-
-__attribute_noinline__
-static void logout(void) {
-    char buf[0x130];
-    puts("Who is logging out?");
-    bool confirm = false;
-    while (!confirm) {
-        printf("Input user: ");
-        who(buf, sizeof(buf));
-        char *newline;
-        if ((newline = strchr(buf, '\n')))
-            *newline = '\0';
-        printf("Is this you? %s [y/n] ", buf);
-        char response = getchar();
-        getchar(); // discard '\n'
-        if (response == 'y')
-            confirm = true;
-    }
-    puts("logout");
-}
+extern void logout(void);
 
 static void pwnShell(void) {
     char cmd[0x60];
@@ -49,9 +29,7 @@ static void pwnShell(void) {
         else if (STREQ("pwd")) {
             getcwd(cmd, sizeof(cmd) - 1);
             puts(cmd);
-        } else if (STREQ("psh"))
-            pwnShell();
-        else if (STREQ("logout") || STREQ("exit")) {
+        } else if (STREQ("logout") || STREQ("exit")) {
             logout();
             exited = true;
         } else if (cmd[0] != '\0')

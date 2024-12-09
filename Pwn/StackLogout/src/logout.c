@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <string.h>
 
-extern void who(char *buf, unsigned size);
+extern void who(char *buf, unsigned long size);
 
 void logout(void) {
-    char buf[0x130];
+    char buf[0x40];
     puts("Who is logging out?");
 input:
     printf("Input user: ");
-    who(buf, sizeof(buf));
+    who(buf, 0x30);
     register char *newline;
     if ((newline = strchr(buf, '\n')))
         *newline = '\0';

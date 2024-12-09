@@ -27,7 +27,7 @@ src/who-ref.s: src/who.c
 reference: src/who-ref.s
 
 $(BUILD_DIR)/logout.o: $(SRC_DIR)/logout.c
-	$(CC) -c -Wextra -Wall -O0 -fpie -fstack-protector -o $@ $<
+	$(CC) -c -Wextra -Wall -O0 -fpie -fno-stack-protector -o $@ $<
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.s
 	$(CC) -c $(ASFLAGS) -o $@ $<
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c

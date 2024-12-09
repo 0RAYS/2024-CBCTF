@@ -25,23 +25,21 @@ who:
     # init stack frame
 	push	rbp
 	mov	rbp, rsp
-    sub rsp, 0x10
+    # sub rsp, 0x10, merged below
     # canary & toread init
 .equ canary, 8
 .equ toread, 0x10
     mov rax, QWORD PTR fs:[0x28]
     mov QWORD PTR [rbp - canary], rax
-	mov	eax, esi
     # alloca(size): local, tmp
-    sub rsp, rax
-    sub rsp, rax
-    dec eax
+    sub rsp, rsi
+    sub rsp, rsi
     # toread = size - 1
-    mov DWORD PTR [rbp - toread], eax
+    mov DWORD PTR [rbp - toread], esi
 
     # now we'll calc rest of vars according to rsp
-    # alloca: pbuf, inval, outval
-    sub rsp, 0x20
+    # alloca: canary, toread, pbuf, inval, outval
+    sub rsp, 0x30
     # save registers
     push rdi
     push rbx
@@ -60,11 +58,11 @@ who:
 .equ pbuf, 0x48
 .equ ptmp, 0x30
     # r13 = local
-    lea r13, QWORD PTR [rsp + r14 * 1 + tmp]
+    lea r13, QWORD PTR [rsp + rsi * 1 + tmp]
     # pbuf = local, ptmp = tmp
     mov QWORD PTR [rsp + pbuf], r13
-    lea r9, QWORD PTR [rsp + tmp]
-    mov QWORD PTR [rsp + ptmp], r9
+    lea rdi, QWORD PTR [rsp + tmp]
+    mov QWORD PTR [rsp + ptmp], rdi
     # memset(local, 0, size)
     mov rbx, r13
     mov rcx, r14
@@ -153,7 +151,7 @@ who:
 .LoneMoreRead:
     # r12 = readin = read(0, local, toread & 0x1f0)
     mov edx, DWORD PTR [rbp - toread]
-    and edx, 0x1f8
+    and edx, 0xf8
     mov rsi, r13
     xor edi, edi
     call read@PLT

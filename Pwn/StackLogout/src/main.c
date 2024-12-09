@@ -18,7 +18,10 @@ static void pwnShell(void) {
         if ((newline = strchr(cmd, '\n')))
             *newline = '\0';
 #define STREQ(str) strstr(cmd, str) == cmd
-        if (STREQ("echo"))
+        if (STREQ("logout") || STREQ("exit")) {
+            logout();
+            exited = true;
+        } else if (STREQ("echo"))
             puts(cmd + 5);
         else if (STREQ("whoami"))
             puts("ctf");
@@ -29,9 +32,6 @@ static void pwnShell(void) {
         else if (STREQ("pwd")) {
             getcwd(cmd, sizeof(cmd) - 1);
             puts(cmd);
-        } else if (STREQ("logout") || STREQ("exit")) {
-            logout();
-            exited = true;
         } else if (cmd[0] != '\0')
             puts("Function not implemented!");
     }

@@ -7,11 +7,11 @@
 #include <immintrin.h>
 #include <xmmintrin.h>
 
-void who(char *buf, unsigned size) {
+void who(char *buf, unsigned long size) {
     __m128i zero = _mm_setzero_si128();
     char *tmp = alloca(size);
     char *local = alloca(size);
-    unsigned toread = size - 1, readin;
+    unsigned toread = size, readin;
     readin = read(0, local, toread);
     for (int i = 0; i < size; i += 16)
         _mm_store_si128((__m128i *)(local + i), zero);
@@ -28,7 +28,7 @@ testname:
     char c = getchar();
     getchar(); // discard \n
     if (c == 'n')
-        readin = read(0, local, toread & 0x1f0);
+        readin = read(0, local, toread & 0xf8);
     else if (c != 'y')
         goto testname;
     // c == 'y'

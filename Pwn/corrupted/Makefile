@@ -2,14 +2,15 @@ CC = gcc
 CFLAGS = -O2 -Wextra -Wall
 LDFLAGS = -lcrypto
 TARGET = corrupted
+SRC_DIR = src
 
 all: $(TARGET)
 
-victim: src/$(TARGET).c
+victim: $(SRC_DIR)/$(TARGET).c
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $<
 
 $(TARGET): victim
-	python corrupt.py $< $@
+	python $(SRC_DIR)/corrupt.py $< $@
 
 clean:
 	rm -f $(TARGET) victim $(TARGET).zip

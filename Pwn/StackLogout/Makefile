@@ -39,6 +39,9 @@ $(TARGET): $(OBJS)
 clean:
 	rm -f $(OBJS) $(TARGET)
 
-print:
-	@echo $(OBJS) $(SRCS)
-.PHONY: all clean reference print
+package: attachment/$(TARGET)-fs.tar.gz
+
+attachment/$(TARGET)-fs.tar.gz:
+	bsdtar -cvaf $(TARGET)-fs.tar.gz --exclude .gdb_history attachment
+	mv $(TARGET)-fs.tar.gz attachment
+.PHONY: all clean reference package

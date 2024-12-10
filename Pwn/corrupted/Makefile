@@ -15,8 +15,4 @@ $(TARGET): victim
 clean:
 	rm -f $(TARGET) victim $(TARGET).zip
 
-package:
-	rm victim
-	bsdtar -caf $(TARGET).zip $(TARGET)
-
-.PHONY: all clean package
+.PHONY: all clean

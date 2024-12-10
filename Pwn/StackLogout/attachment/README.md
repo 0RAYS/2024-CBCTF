@@ -32,16 +32,3 @@ gdb.attach(('127.0.0.1', 4097), 'b *who+387', EXE)
 ```
 
 attach上去后会停在`_start`的地方， **需要手动继续才能运行**
-
-
-<!-- ## 其他方案 -->
-
-<!-- 可以使用Roderick的`docker_pwn_env`来调试，其中预装pwndbg -->
-
-<!-- #!/bin/zsh -->
-<!-- sudo pip uninstall questionary qiling -y -->
-<!-- sudo apt update -->
-<!-- sudo apt-mark hold libc6 -->
-<!-- sudo apt install ipython3 -y -->
-<!-- sudo pip install --upgrade prompt_toolkit -->
-<!-- # ubuntu:noble-20240423 -->

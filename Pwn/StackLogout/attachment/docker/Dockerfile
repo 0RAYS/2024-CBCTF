@@ -12,7 +12,7 @@ COPY ./StackLogout .
 COPY ./start.sh .
 COPY ./ctf ./debug /etc/xinetd.d/
 
-RUN chmod 755 ./StackLogout
+RUN chmod 755 ./StackLogout ./start.sh
 
 EXPOSE 2049 3073 4097
 CMD ["./start.sh"]

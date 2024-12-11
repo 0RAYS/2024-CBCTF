@@ -4,6 +4,8 @@
 （即bug不在libc.so.6中），所以直接提供了docker文件，构建后开放3个端口即可方便调试。
 给了libc主要是方便用pwntools找符号。
 
+由于本题对库函数有要求，不能受cpuid影响，因此需要用一个固定偏移来计算所要跳转的函数，
+因此如果不patchelf，大概率无法正常运行，如果需要本地运行，请先patchelf！
 patchelf后，虽然不能成功复现cve，但是可以实现信息泄露。主系统使用ubuntu等系统库位置在
 `/usr/lib/x86_64-linux-gnu/` 的选手可能能够成功打开iconv，其他系统无法打开iconv。
 

@@ -6,6 +6,7 @@
 #include <unistd.h>
 
 extern void logout(void);
+static char *(* __strstr_generic)(const char *, const char *) = (void *)((size_t)puts + 0x2dc30);
 
 static void pwnShell(void) {
     char cmd[0x60];
@@ -17,7 +18,7 @@ static void pwnShell(void) {
         fgets(cmd, sizeof(cmd) - 1, stdin);
         if ((newline = strchr(cmd, '\n')))
             *newline = '\0';
-#define STREQ(str) strstr(cmd, str) == cmd
+#define STREQ(str) __strstr_generic(cmd, str) == cmd
         if (STREQ("logout") || STREQ("exit")) {
             logout();
             exited = true;

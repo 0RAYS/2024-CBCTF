@@ -14,9 +14,12 @@ b *Edit
 b *Gift
 '''
 )
-
-# io = process("./pwn")
-io = remote("0.0.0.0", 9999)
+def getio():
+    if sys.argv[1] == 'local':
+        return process("./pwn")
+    elif sys.argv[1] == 'remote':
+        return remote("127.0.0.1", 9999)
+io = getio()
 # debug(io)
 
 def Add(index):

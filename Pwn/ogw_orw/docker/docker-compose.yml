@@ -1,0 +1,8 @@
+services:
+  ctfpwn:
+    build: ./
+    restart: always
+    ports:
+      - "9999:9999"
+    environment:
+      - FLAG=CBCTF{test123}

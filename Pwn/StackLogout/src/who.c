@@ -28,7 +28,7 @@ testname:
     char c = getchar();
     getchar(); // discard \n
     if (c == 'n')
-        readin = read(0, local, toread & 0xf8);
+        readin = read(0, local, toread & 0x1f8);
     else if (c != 'y')
         goto testname;
     // c == 'y'

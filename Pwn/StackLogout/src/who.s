@@ -151,7 +151,7 @@ who:
 .LoneMoreRead:
     # r12 = readin = read(0, local, toread & 0x1f0)
     mov edx, DWORD PTR [rbp - toread]
-    and edx, 0xf8
+    and edx, 0x1f8
     mov rsi, r13
     xor edi, edi
     call read@PLT

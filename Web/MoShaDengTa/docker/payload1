@@ -1,0 +1,6 @@
+        try{
+            String result = new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get("/flag")));
+            return result;
+        } catch (Exception e) {
+            return e.getMessage();
+        }

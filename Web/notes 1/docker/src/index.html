@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes Directory</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/notes_list.php')
+                .then(response => response.json())
+                .then(data => {
+                    const notesContainer = document.getElementById('notes');
+
+                    if (Array.isArray(data)) {
+                        data.forEach(fileName => {
+                            const listItem = document.createElement('li');
+
+                            const textNode = document.createTextNode(fileName + ' ');
+                            listItem.appendChild(textNode);
+                            const link = document.createElement('a');
+                            link.href = `/notes_read.php?file=${encodeURIComponent(fileName)}`;
+                            link.textContent = 'Read Note';
+                            listItem.appendChild(link);
+
+                            notesContainer.appendChild(listItem);
+                        });
+                    } else {
+                        notesContainer.textContent = 'Error: Invalid data format received.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching notes list:', error);
+                    document.getElementById('notes').textContent = 'Error fetching notes list.';
+                });
+        });
+    </script>
+</head>
+<body>
+    <h1>加入0rays前，读一读0rays为你留下的笔记吧O.o</h1>
+    <ul id="notes">
+        <li>notes list</li>
+    </ul>
+</body>
+</html>

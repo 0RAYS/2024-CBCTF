@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>获取GPS定位信息</title>
+</head>
+<body>
+
+  <h1>GPS 定位信息</h1>
+  <button onclick="getLocation()">获取当前位置</button>
+  <p id="location">等待获取定位...</p>
+
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        // 获取位置
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        alert("你的浏览器不支持获取地理位置");
+      }
+    }
+
+    // 成功回调函数
+    function showPosition(position) {
+      const latitude = position.coords.latitude;  // 纬度
+      const longitude = position.coords.longitude; // 经度
+      const altitude = position.coords.altitude;  // 海拔
+      const accuracy = position.coords.accuracy;  // 精确度
+
+      // 更新页面内容
+      document.getElementById("location").innerHTML =
+        `纬度: ${latitude} <br> 经度: ${longitude} <br> 海拔: ${altitude ? altitude : '不提供'} <br> 精确度: ${accuracy} 米`;
+    }
+
+    // 错误回调函数
+    function showError(error) {
+      let errorMessage;
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          errorMessage = "用户拒绝了地理位置请求";
+          break;
+        case error.POSITION_UNAVAILABLE:
+          errorMessage = "无法获取当前位置";
+          break;
+        case error.TIMEOUT:
+          errorMessage = "获取位置请求超时";
+          break;
+        case error.UNKNOWN_ERROR:
+          errorMessage = "发生未知错误";
+          break;
+      }
+      document.getElementById("location").innerHTML = `错误: ${errorMessage}`;
+    }
+  </script>
+
+</body>
+</html>

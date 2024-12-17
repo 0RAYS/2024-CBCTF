@@ -11,7 +11,7 @@ def payload(lo: int):
         if lo & 2:
             gdb.attach(sh)
     else:
-        sh = remote('127.0.0.1', 1337)
+        sh = remote('training.0rays.club', 10030)
     elf = ELF(EXE)
 
     def answer(idx: int, val: int):

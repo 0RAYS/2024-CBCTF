@@ -14,7 +14,7 @@ def payload(lo: int):
         else:
             sh = remote('127.0.0.1', 2049)
     else:
-        sh = remote('', 9999)
+        sh = remote('training.0rays.club', 10016)
     libc = ELF('/home/Rocket/glibc-all-in-one/libs/2.39-0ubuntu8_amd64/libc.so.6')
 
     def logout(buf: bytes, confirm: bool, go_on: bool, buf2: bytes=b'') -> bytes:

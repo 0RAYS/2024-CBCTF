@@ -20,5 +20,3 @@
 ### [stack_login](https://github.com/0RAYS/CBCTF-attachments-Template/tree/main/Pwn/stack_login)
 ## Crypto
 ### [Challenge Name](https://github.com/0RAYS/CBCTF-attachments-Template/tree/main/Crypto/Challenge%20Name)
-## Blockchain
-### [Challenge Name](https://github.com/0RAYS/CBCTF-attachments-Template/tree/main/Blockchain/Challenge%20Name)
